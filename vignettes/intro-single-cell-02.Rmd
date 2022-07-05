@@ -1,0 +1,142 @@
+---
+title: "Overview of single-cell analysis in R/Bioconductor"
+description: >
+  Overview of single-cell analysis in R/Bioconductor
+author: "Stephanie Hicks"
+output:
+  rmarkdown::html_document:
+   highlight: pygments
+   toc: true
+   toc_depth: 3
+   fig_width: 5
+vignette: >
+  %\VignetteIndexEntry{Overview of single-cell analysis in R and Bioconductor}
+  %\VignetteEncoding[ut8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+
+# Overview
+
+## Key resources
+
+- Workshop material: [pkgdown website](https://stephaniehicks.com/cshlgsd2022)
+- Code: [GitHub](https://github.com/stephaniehicks/cshlgsd2022)
+
+
+# Part 1
+
+## Learning objectives 
+
+1. Be able to list at least three quality control (QC) metrics for scRNA-seq data
+2. Know the difference between fixed and adaptive thresholds for QC metrics
+3. Be able to define a "library size" in terms of normalization
+4. Describe some common probability distributions used to model scRNA-seq data
+5. Describe imputation and what it does to scRNA-seq data
+
+
+## Materials 
+
+We will go through the best practices single-cell data science slides available here: 
+
+- https://docs.google.com/presentation/d/1v-QUVyBefRUlPo_xMwua3jAH_GCP7nAqPQ5wM2KuxVI/edit?usp=sharing
+
+
+
+
+# Part 2
+
+## Learning objectives 
+
+1. Be able to describe a standard workflow for analyzing single-cell data
+2. Be able to run code for a standard workflow starting from loading a `SingleCellExperiment` in R and identifying clusters.
+
+
+## Overview 
+
+Here, we provide an overview of the framework of a typical scRNA-seq analysis workflow:  
+
+```{r, out.width = "780px", show=TRUE, fig.align="center", fig.caption = "Schematic of a typical scRNA-seq analysis workflow. Each stage (separated by dashed lines) consists of a number of specific steps, many of which operate on and modify a SingleCellExperiment instance.", echo=FALSE}
+knitr::include_graphics("figures/workflow.png")
+```
+
+
+In the simplest case, the workflow has the following form:
+
+1. We compute quality control metrics to remove low-quality cells that would interfere with downstream analyses. These cells may have been damaged during processing or may not have been fully captured by the sequencing protocol. Common metrics includes the total counts per cell, the proportion of spike-in or mitochondrial reads and the number of detected features.
+2. We convert the counts into normalized expression values to eliminate cell-specific biases (e.g., in capture efficiency). This allows us to perform explicit comparisons across cells in downstream steps like clustering. We also apply a transformation, typically log, to adjust for the mean-variance relationship.
+3. We perform feature selection to pick a subset of interesting features for downstream analysis. This is done by modelling the variance across cells for each gene and retaining genes that are highly variable. The aim is to reduce computational overhead and noise from uninteresting genes.
+4. We apply dimensionality reduction to compact the data and further reduce noise. Principal components analysis is typically used to obtain an initial low-rank representation for more computational work, followed by more aggressive methods like $t$-stochastic neighbor embedding for visualization purposes.
+5. We cluster cells into groups according to similarities in their (normalized) expression profiles. This aims to obtain groupings that serve as empirical proxies for distinct biological states. We typically interpret these groupings by identifying differentially expressed marker genes between clusters.
+
+
+
+Today and tomorrow, we will describe each analysis step in more detail.
+
+## Quick start (simple)
+
+Here, we use the a droplet-based retina dataset from Macosko et al. (2015), provided in the `scRNAseq` package. 
+This starts from a count matrix and finishes with clusters in preparation for biological interpretation. 
+We also demonstrate how to identify differentially expressed genes between the clusters. 
+
+```{r}
+library(scRNAseq)
+sce <- MacoskoRetinaData()
+
+# Quality control (using mitochondrial genes).
+library(scater)
+is.mito <- grepl("^MT-", rownames(sce))
+qcstats <- perCellQCMetrics(sce, subsets=list(Mito=is.mito))
+filtered <- quickPerCellQC(qcstats, percent_subsets="subsets_Mito_percent")
+sce <- sce[, !filtered$discard]
+
+# Normalization.
+sce <- logNormCounts(sce)
+
+# Feature selection.
+library(scran)
+dec <- modelGeneVar(sce)
+hvg <- getTopHVGs(dec, prop=0.1)
+
+# PCA.
+library(scater)
+set.seed(1234)
+sce <- runPCA(sce, ncomponents=25, subset_row=hvg)
+
+# Clustering.
+library(bluster)
+colLabels(sce) <- clusterCells(sce, use.dimred='PCA',
+    BLUSPARAM=NNGraphParam(cluster.fun="louvain"))    
+```
+
+```{r, fig.cap="UMAP plot of the retina dataset, where each point is a cell and is colored by the assigned cluster identity."}
+# Visualization.
+sce <- runUMAP(sce, dimred = 'PCA')
+plotUMAP(sce, colour_by="label")
+```
+
+```{r}
+# Marker detection (between pairs of groups)
+markers <- findMarkers(sce, test.type="wilcox", direction="up", lfc=1)
+length(markers)
+markers[[1]]
+```
+
+## Quick start (multiple batches)
+
+If you could like to see Quick Start for scRNA-seq data with multiple batches, check out this workflow: 
+
+- https://bioconductor.org/books/3.15/OSCA.intro/analysis-overview.html#quick-start-multiple-batches
+
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+

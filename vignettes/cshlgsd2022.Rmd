@@ -1,0 +1,110 @@
+---
+title: "Get Started"
+description: >
+  Learn how to get started with the CSHL Genome Scale Data materials from Stephanie Hicks
+author: "Stephanie Hicks"
+output:
+  rmarkdown::html_document:
+   highlight: pygments
+   toc: true
+   toc_depth: 3
+   fig_width: 5
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEncoding[ut8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+
+# Create a copy of this repository
+
+You can create a new GitHub repository in your own GitHub account that is 
+a copy of this repository for yourself to edit/write code and notes. 
+Github calls this "creating a template repository." 
+This is different than a fork because there will be no link between the original and your repository.
+From there, you can clone the repository with the `git clone` command and run / edit the code in the repository.
+
+Creating a repository with the template can be done in the following way: 
+
+- Go to https://github.com/stephaniehicks/cshlgsd2022
+- Click on the "Use this template" button at the top of the GitHub template repository
+
+![](https://docs.github.com/assets/cb-36544/images/help/repository/use-this-template-button.png)
+
+From there, you can [follow these instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template). However do not optionally select "**Include all branches**" as you do not need this for your own projects.
+
+# Software
+
+I will make heavy use of R, so you should have R installed. You can obtain R from the [Comprehensive R Archive Network](https://cran.r-project.org). There are versions available for Mac, Windows, and Unix/Linux. This software is **required** for this course.	
+
+It is important that you have the latest version of R installed. I will be using **R version `r paste(version$major, version$minor, sep = ".")`**. You can determine what version of R you have by starting up R and typing into the console `R.version.string` and hitting the `return`/`enter` key. If you do not have the latest version of R installed, go to [CRAN](https://cran.r-project.org) and download and install the latest version.
+
+I will also make use of the RStudio interactive development environment (IDE). RStudio requires that R be installed, and so is an "add-on" to R. You can obtain the RStudio Desktop for free from the [RStudio web site](https://www.rstudio.com/). 
+
+## Install packages
+
+These materials use Bioconductor version 3.15.
+This is the current 'release' version of Bioconductor, which can be installed following [these instructions](https://bioconductor.org/install).
+
+For example, you can then install a subset of the packages necessary for these tutorials using the following:
+
+```
+library(BiocManager)
+install(c("SingleCellExperiment", "TENxPBMCData", "scater", "scran",
+  "scry", "mbkmeans"))
+```
+
+Please see the [`DESCRIPTION`](https://github.com/stephaniehicks/cshlgsd2022/blob/main/DESCRIPTION) for a full list of dependencies.
+
+
+# Schedule
+
+::: l-body-outset
+| Day (time)   | Schedule     | Topics (`r emojifont::emoji('woman_technologist')` Lecture, `r emojifont::emoji('palm_tree')` Lab )                                       | 
+|------------------ | ---------------------- | ------------------------------------------------------------------------ |
+| **Module 1** |    | **Single-cell Data Science** |
+| | | |
+|   Jul 5 (1-4pm)   |  1-1:25pm | `r emojifont::emoji('wave')` `r emojifont::emoji('woman_technologist')` Introduction to single-cell [[slides](https://docs.google.com/presentation/d/19tLNkFzNP2zkWGdMeaTAdE3quv78ukUeH_-v85g_pDI/edit?usp=sharing)]  | 
+| | 1:25-1:30pm | **5min break; prepare for working in R/RStudio** | 
+| |  1:30-2pm | `r emojifont::emoji('woman_technologist')` Getting single-cell data and `SingleCellExperiment` class [[html](intro-single-cell-01.html)] [[Rmd](https://github.com/stephaniehicks/cshlgsd2022/blob/main/vignettes/intro-single-cell-01.Rmd)] | 
+| | 2-2:05pm | **5min break; pick 1 of 3 labs below to read through until 2:30pm** | 
+| |  |  `r emojifont::emoji('palm_tree')` Lab (Getting single-cell data) [[html](https://bioconductor.org/books/3.15/OSCA.intro/getting-scrna-seq-datasets.html)] |
+|  |   |  `r emojifont::emoji('palm_tree')` Lab (`SingleCellExperiment` class) [[html](https://bioconductor.org/books/3.15/OSCA.intro/the-singlecellexperiment-class.html)] |
+|  |   |  `r emojifont::emoji('palm_tree')` Lab (Importing counts from `salmon alevin` into R/Bioc) [[html](https://mikelove.github.io/alevin2bioc/articles/alevin2bioc.html)] |
+| | 2:30-3pm | `r emojifont::emoji('woman_technologist')` Best practices for single-cell data science [[slides](https://docs.google.com/presentation/d/1v-QUVyBefRUlPo_xMwua3jAH_GCP7nAqPQ5wM2KuxVI/edit?usp=sharing)] |
+| | 3-3:15pm | `r emojifont::emoji('woman_technologist')` Overview of single-cell analysis in R/Bioconductor [[html](intro-single-cell-02.html)] [[Rmd](https://github.com/stephaniehicks/cshlgsd2022/blob/main/vignettes/intro-single-cell-02.Rmd)] |
+| | 3:15-3:20m | **5min break; pick 1 of 3 labs below to read through until 3:50pm** | 
+| | | `r emojifont::emoji('palm_tree')` Lab (Quality control) [[html](http://bioconductor.org/books/3.15/OSCA.basic/quality-control.html)] |
+| |  |   `r emojifont::emoji('palm_tree')` Lab (Normalization) [[html](https://bioconductor.org/books/3.15/OSCA.basic/normalization.html)] |
+| |  |  `r emojifont::emoji('palm_tree')` Lab (Feature selection) [[html](https://bioconductor.org/books/3.15/OSCA.basic/feature-selection.html)] |
+| | 3:50-4pm | **Wrap-up; next steps** |
+| | | |
+|   Jul 6 (10:30am-12pm)  | 10:30-11am | `r emojifont::emoji('woman_technologist')` More single-cell data science [[slides](https://docs.google.com/presentation/d/19EIrGrbZoQUyYQggy8Zxzo5RiwM7fEsiP3DSAsnCOgE/edit?usp=sharing)] | 
+|      |  11-11:15am | `r emojifont::emoji('woman_technologist')` Dealing with large single-cell data [[html](adv-single-cell-01.html)] [[Rmd](https://github.com/stephaniehicks/cshlgsd2022/blob/main/vignettes/adv-single-cell-01.Rmd)] | 
+| | 11:15-11:20am | **5min break; pick 1 of labs below to read through until 11:50pm** | 
+| | | `r emojifont::emoji('palm_tree')` Lab (Dim reduction) [[html](https://bioconductor.org/books/3.15/OSCA.basic/dimensionality-reduction.html)] |
+| | |  `r emojifont::emoji('palm_tree')` Lab (Clustering) [[html](https://bioconductor.org/books/3.15/OSCA.basic/clustering.html)] |
+| | |  `r emojifont::emoji('palm_tree')` Lab (Marker gene detection) [[html](https://bioconductor.org/books/3.15/OSCA.basic/marker-detection.html)] |
+| | |  `r emojifont::emoji('palm_tree')` Lab (Cell type annotation) [[html](https://bioconductor.org/books/3.15/OSCA.basic/cell-type-annotation.html)] |
+| | |  `r emojifont::emoji('palm_tree')` Lab (Python for R users) [[html](https://www.stephaniehicks.com/jhustatcomputing2021/posts/2021-10-14-python-for-r-users/index.html)] [[Rmd](https://github.com/stephaniehicks/jhustatcomputing2021/blob/main/_posts/2021-10-14-python-for-r-users/python-for-r-users.Rmd)]  |
+| | 11:50am-12pm | **Wrap-up; next steps** |
+| | | | 
+| **Module 2** |    | **Spatial Transcriptomics Data Science** |
+| | | |
+|   Jul 6 (1-2:30pm)   | 1-1:25pm  | `r emojifont::emoji('woman_technologist')` Introduction to spatially-resolved transcriptomics (SRT) [[slides](https://docs.google.com/presentation/d/1UsbOP4pzw9K05QU_llAlIzy9sjZFoDVBlchOLk1QBEA/edit?usp=sharing)] |
+| | 1:25-1:30pm | **5min break; prepare for working in R/RStudio** | 
+| |  1:30-2pm | `r emojifont::emoji('woman_technologist')` `SpatialExperiment` class and spatially variable genes [[html](intro-spatial-01.html)] [[Rmd](https://github.com/stephaniehicks/cshlgsd2022/blob/main/vignettes/intro-spatial-01.Rmd)]
+| | 2-2:05pm | **5min break; pick 1 of labs below to read through until 2:25pm** | 
+| |  |  `r emojifont::emoji('palm_tree')` Lab (Human DLPFC workflow) [[html](https://lmweber.org/OSTA-book/human-dlpfc-workflow.html)] |
+| |  |  `r emojifont::emoji('palm_tree')` Lab (Mouse coronal workflow) [[html](https://lmweber.org/OSTA-book/mouse-coronal-workflow.html)] |
+| | 2:25-2:30pm | **Wrap-up; next steps** |
+| | | | 
+|   Jul 7 (9-10:30am)   |  9-9:50am | `r emojifont::emoji('woman_technologist')` Survey of downstream analyses with spatially-resolved transcriptomics data [[slides](https://docs.google.com/presentation/d/1QZlDSuJxXfUaPrun7KkMwntTONTJguFdqsy7Dei5RL0/edit?usp=sharing)] [[html](adv-spatial-01.html)] [[Rmd](https://github.com/stephaniehicks/cshlgsd2022/blob/main/vignettes/adv-spatial-01.Rmd)] |
+| | 9:50-10am | **10min break** | 
+| | 10-10:30am | **Open question time; Wrap-up** |
+:::

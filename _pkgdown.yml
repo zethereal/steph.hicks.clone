@@ -1,0 +1,36 @@
+url: https://stephaniehicks.com/cshlgsd2022
+
+template:
+  params:
+    bootstrap: 3
+    bootswatch: flatly
+
+home:
+  title: "CSHL GSD 2022"
+  type: inverse
+
+navbar:
+  structure:
+    left:  [intro, articles]
+    right: [twitter, github]
+  components:
+    twitter:
+      icon: fa-twitter
+      href: http://twitter.com/stephaniehicks
+    github:
+      icon: fa-github
+      href: https://github.com/stephaniehicks/cshlgsd2022
+
+articles:
+  - title: Course material for CSHL Statistical Methods for Genome Scale Data
+    navbar: ~
+    contents:
+    - cshlgsd2022
+    - intro-single-cell-01
+    - intro-single-cell-02
+    - adv-single-cell-01
+    - intro-spatial-01
+    - adv-spatial-01
+  - title: Resources
+    contents:
+    - resources

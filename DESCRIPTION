@@ -1,0 +1,31 @@
+Package: cshlgsd2022
+Type: Package
+Title: CSHL Statistical Methods for Genome Scale Data with Single-cell and Spatial data
+Version: 0.1.0
+Authors@R: c(
+    person(c("Stephanie", "C."), "Hicks", role = c("aut", "cre"),
+    email = "shicks19@jhu.edu",
+    comment = c(ORCID = "0000-0002-7858-0231")))
+Maintainer: Stephanie C. Hicks <shicks19@jhu.edu>
+Description: These are the materials from Stephanie Hicks 
+  for the CSHL Statistical Methods for Genome Scale Data 2022 course
+  with Single-cell and Spatial data
+Imports:
+  SingleCellExperiment,
+  TENxPBMCData, 
+  scater,
+  scran,
+  scry,
+  mbkmeans,
+  emojifont, 
+  HCAData, 
+  hca, 
+  scRNAseq
+Suggests:
+  pkgdown,
+  TENxBrainData
+License: CC BY 4.0
+VignetteBuilder: knitr
+Encoding: UTF-8
+URL: https://stephaniehicks.com/cshlgsd2022
+LazyData: true

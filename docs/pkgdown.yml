@@ -1,0 +1,16 @@
+pandoc: 2.17.1.1
+pkgdown: 2.0.5
+pkgdown_sha: ~
+articles:
+  adv-single-cell-01: adv-single-cell-01.html
+  adv-spatial-01: adv-spatial-01.html
+  cshlgsd2022: cshlgsd2022.html
+  intro-single-cell-01: intro-single-cell-01.html
+  intro-single-cell-02: intro-single-cell-02.html
+  intro-spatial-01: intro-spatial-01.html
+  resources: resources.html
+last_built: 2022-07-05T14:40Z
+urls:
+  reference: https://stephaniehicks.com/cshlgsd2022/reference
+  article: https://stephaniehicks.com/cshlgsd2022/articles
+

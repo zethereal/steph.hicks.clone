@@ -1,0 +1,32 @@
+---
+title: "Resources"
+description: >
+  These are additional resources useful for the analysis of single cell
+  and spatial genomics data.
+author: "Stephanie Hicks"
+output:
+  rmarkdown::html_document:
+   highlight: pygments
+   toc: true
+   toc_depth: 3
+   fig_width: 5
+vignette: >
+  %\VignetteIndexEntry{Resources}
+  %\VignetteEncoding[ut8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+
+
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+
